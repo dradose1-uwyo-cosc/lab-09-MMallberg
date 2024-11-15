@@ -3,10 +3,10 @@
 # Submission Date
 # Lab 09
 # Lab Section:10
-# Sources, people worked with, help given to:
-# Your
-# Comments
-# Here
+# Sources, people worked with, help given to: Serena, Paige, ta's 
+# I don't know what is wrong with this code anymore, it won't run perfectly 
+#and I don't have the time to work on it any longer. I know it's close, but I can't
+#figure out what else to do. 
 
 # Classes
 # For this assignment, you will be creating two classes:
@@ -42,19 +42,25 @@ class Pizza:
         self.sauce = sauce
         self.toppings = ["cheese"]
     def setsize(self, size):
-        if not size.isdigit() or int(size) < 10:
+        if int(size) < 10:
+            self.size = 10
+        elif type(size) == int:
             self.size = 10
         else:
             self.sixe = int(size)
     def get_size(self):
         return self.size
+
     def get_sauce(self):
         return self.sauce
+
     def get_toppings(self):
         return self.toppings
+
     def set_toppings(self, new_toppings):
         for object in new_toppings:
             self.toppings.append(object)
+
     def count_toppings(self):
         return len(self.toppings)
 
@@ -103,16 +109,20 @@ class Pizza:
 # - AFTER the loop, print how many orders were placed.
 
 class Pizzeria():
-    def __init__(self, orders = 0, price_per_topping = 0.3, price_per_inch = 0.6):
-        self.orders = orders
-        self.price_per_topping = price_per_topping
-        self.price_per_inch = price_per_inch
-        self.pizzas = [] 
+    price_per_topping = 0.3
+    price_per_inch = 0.6
+
+    def __init__(self):
+        self.orders = 0
+        self.pizzas = []
 
     def place_order(self):
         size = int(input("what size pizza do you want?"))
         sauce = input("what sauce do you want?")
-        toppings = split(input("enter a list of necesary toppings."))
+        if not sauce:
+            sauce = "red"
+        
+        toppings = []
         while True:
             temp = input("what is your order, give the toppings. Type 'exit' to exit.")
             if temp.lower() == "exit":
@@ -122,26 +132,37 @@ class Pizzeria():
                 break
             else:
                 toppings.append(temp)
-        pizza_order = Pizza(size, sauce, toppings)
+        pizza_order = Pizza(size, sauce)
         self.pizzas.append(pizza_order)
-        self.order += 1
+        self.orders += 1
+        pizza_order.set_toppings(toppings)
+        return pizza_order
+
     def get_price(self, pizza_order):
-        price = (pizza_order.getsize()*price_per_inch) + (pizza_order.count_toppings()*price_per_topping)
-        return price
+        total_price = (pizza_order.getsize()*self.price_per_inch) + (pizza_order.count_toppings()*self.price_per_topping)
+        return total_price
+
     def get_receipt(self, pizza_order):
         print(pizza_order)
-        print(f"{pizza_order.count_toppings()*price_per_topping} is the price of toppings.")
-        print(f"{pizza_order.getsize()*price_per_inch} is the price of the size.")
-        print(f"your total price is {pizza_order.get_price()}")
-    def getNumber_of_order(self):
-        return orders
+        print(f"{pizza_order.count_toppings()*self.price_per_topping} is the price of toppings.")
+        print(f"{pizza_order.get_size()*self.price_per_inch} is the price of the size.")
+        print(f"your total price is {(pizza_order.count_toppings()*self.price_per_topping)+(pizza_order.get_size()*self.price_per_inch)}")
 
+    def getNumber_of_order(self):
+        return self.orders
+
+pizzeria = Pizzeria()
 while True:
-    order = input("input your order as a list, including size, sauce, and toppings. type 'exit' to exit.")
+    order = input("Would you like to order a pizza? type yes to continue, type 'exit' to exit.")
     if order.lower() == "exit":
         break
-    order_obj = order.split(",")
-    size = order_obj[0]
+    elif order.lower() == "yes":
+        pizza_order = pizzeria.place_order
+        pizzeria.get_receipt(pizza_order)
+
+print(f"the total number of pizzas orders was {Pizzeria().getNumber_of_order()}")
+    
+    
         
 
 
